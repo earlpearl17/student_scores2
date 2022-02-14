@@ -1,0 +1,25 @@
+version: "3.5"
+
+services:
+    web2:
+        container_name: web2
+        build: .
+        restart: always
+        networks: 
+            - proxynet
+        command: >
+            bash -c "python manage.py makemigrations
+            && python manage.py migrate
+            && python manage.py runserver 0.0.0.0:8000"
+        volumes:
+            - .:/code
+        ports:
+            - 10556:8000
+
+networks:
+    proxynet:
+        name: apps-net
+    #default:
+    #    external:
+    #        name: apps-net
+    
