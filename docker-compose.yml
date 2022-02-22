@@ -7,10 +7,14 @@ services:
         restart: always
         networks: 
             - proxynet
-        command: >
-            bash -c "python manage.py makemigrations
-            && python manage.py migrate
-            && python manage.py runserver 0.0.0.0:8000"
+        environment:
+            - DJANGO_SUPERUSER_PASSWORD=${DJANGO_SUPERUSER_PASSWORD}
+        command: bash -c "python manage.py runserver 0.0.0.0:8000"
+        #command: >
+        #    bash -c "python manage.py makemigrations
+        #    && python manage.py migrate
+        #    && python manage.py createsuperuser --no-input --username ${DJANGO_SUPERUSER_USERNAME} --email ${DJANGO_SUPERUSER_EMAIL}
+        #    && python manage.py runserver 0.0.0.0:8000"
         volumes:
             - .:/code
         ports:
